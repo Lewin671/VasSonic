@@ -35,6 +35,7 @@ import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicConstants;
 import com.tencent.sonic.sdk.SonicEngine;
 import com.tencent.sonic.sdk.SonicSession;
+import com.tencent.sonic.sdk.SonicSessionClient;
 import com.tencent.sonic.sdk.SonicSessionConfig;
 import com.tencent.sonic.sdk.SonicSessionConnection;
 import com.tencent.sonic.sdk.SonicSessionConnectionInterceptor;
@@ -48,12 +49,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  A demo browser activity
- *  In this demo there are three modes,
- *  sonic mode: sonic mode means webview loads html by sonic,
- *  offline mode: offline mode means webview loads html from local offline packages,
- *  default mode: default mode means webview loads html in the normal way.
- *
+ * A demo browser activity
+ * In this demo there are three modes,
+ * sonic mode: sonic mode means webview loads html by sonic,
+ * offline mode: offline mode means webview loads html from local offline packages,
+ * default mode: default mode means webview loads html in the normal way.
  */
 
 public class BrowserActivity extends Activity {
@@ -192,6 +192,12 @@ public class BrowserActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        if (sonicSession != null) {
+            SonicSessionClient client = sonicSession.getSessionClient();
+            if (client != null && client.goBack()) {
+                return;
+            }
+        }
         super.onBackPressed();
     }
 

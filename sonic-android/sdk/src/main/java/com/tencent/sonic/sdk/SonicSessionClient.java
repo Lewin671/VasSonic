@@ -43,7 +43,6 @@ public abstract class SonicSessionClient {
      * call shouldInterceptRequest.
      *
      * @param url The target url which need to request web response
-     *
      * @return The data to kernel.
      */
     public Object requestResource(String url) {
@@ -56,6 +55,7 @@ public abstract class SonicSessionClient {
     /**
      * The page execute a java script function to invoke a native method by javascript interface,
      * this callback will be called when sonic has finished diff data.
+     *
      * @param callback A callback of web page
      */
     public void getDiffData(SonicDiffDataCallback callback) {
@@ -88,7 +88,7 @@ public abstract class SonicSessionClient {
     /**
      * We add this method to decoupling webview since some application may use x5 webview or others.
      *
-     * @param url   Url which need to load
+     * @param url       Url which need to load
      * @param extraData Extra data
      */
     public abstract void loadUrl(String url, Bundle extraData);
@@ -131,6 +131,10 @@ public abstract class SonicSessionClient {
      */
     public void clearHistory() {
 
+    }
+
+    public boolean goBack() {
+        return false;
     }
 
 }

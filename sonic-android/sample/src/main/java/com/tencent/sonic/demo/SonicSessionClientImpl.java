@@ -21,7 +21,7 @@ import com.tencent.sonic.sdk.SonicSessionClient;
 import java.util.HashMap;
 
 /**
- *  a implement of SonicSessionClient which need to connect webview and content data.
+ * a implement of SonicSessionClient which need to connect webview and content data.
  */
 
 public class SonicSessionClientImpl extends SonicSessionClient {
@@ -59,4 +59,12 @@ public class SonicSessionClientImpl extends SonicSessionClient {
         }
     }
 
+    @Override
+    public boolean goBack() {
+        boolean canGoBack = webView != null && webView.canGoBack();
+        if (canGoBack) {
+            webView.goBack();
+        }
+        return canGoBack;
+    }
 }
