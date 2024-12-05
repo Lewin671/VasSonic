@@ -68,7 +68,8 @@ public abstract class SonicRuntime {
 
     /**
      * Make a unique session id for the url, it can be account related.
-     * @param url Url which need to make session id
+     *
+     * @param url              Url which need to make session id
      * @param isAccountRelated Is account related or not
      * @return A unique session id
      */
@@ -116,10 +117,9 @@ public abstract class SonicRuntime {
      * Returns a set of the unique names of all query parameters. Iterating
      * over the set will return the names in order of their first occurrence.
      *
-     * @throws UnsupportedOperationException if this isn't a hierarchical URI
-     *
      * @param uri The uri
      * @return A set of decoded names
+     * @throws UnsupportedOperationException if this isn't a hierarchical URI
      */
     public Set<String> getQueryParameterNames(Uri uri) {
         if (uri == null) {
@@ -180,7 +180,7 @@ public abstract class SonicRuntime {
     /**
      * Set cookies to webview after session connection response with cookies in it's headers.
      *
-     * @param url The url which need to set cookies
+     * @param url     The url which need to set cookies
      * @param cookies The cookies for current input url
      * @return Set cookie success or not
      */
@@ -190,6 +190,7 @@ public abstract class SonicRuntime {
      * Get user agent of current runtime, this method will be called before sonic session make a
      * session connection to request data.(sonic sdk info such like "sonic-sdk-version/2.0.0" will
      * be added to this user agent.)
+     *
      * @return The user agent
      */
     public abstract String getUserAgent();
@@ -201,11 +202,13 @@ public abstract class SonicRuntime {
      * @return The root cache dir.
      */
     public File getSonicCacheDir() {
-        String path = context.getFilesDir() + "/Sonic/";
-        File file = new File(path.trim());
+        File file = new File(context.getFilesDir(), "sonic");
         if (!file.exists() && !file.mkdir()) {
             log(TAG, Log.ERROR, "getSonicCacheDir error:make dir(" + file.getAbsolutePath() + ") fail!");
-            notifyError(null, path, SonicConstants.ERROR_CODE_MAKE_DIR_ERROR);
+            notifyError(null, file.getAbsolutePath(), SonicConstants.ERROR_CODE_MAKE_DIR_ERROR);
+        }
+        if (SonicUtils.shouldLog(Log.DEBUG)) {
+            log(TAG, Log.DEBUG, "SonicCacheDir: " + file.getAbsolutePath());
         }
         return file;
     }
@@ -255,9 +258,9 @@ public abstract class SonicRuntime {
 
     /**
      * We add this method to decoupling webview since some application may use x5 webview or others.
-     *
+     * <p>
      * e.g. If u use a system webview, just call new android.webkit.WebResourceResponse
-     *
+     * <p>
      * Constructs a resource response with the given MIME type, encoding, and
      * input stream. Callers must implement
      * {@link InputStream#read(byte[]) InputStream.read(byte[])} for the input
@@ -268,7 +271,6 @@ public abstract class SonicRuntime {
      * @param data     The input stream that provides the resource response's data. Must not be a
      *                 StringBufferInputStream.
      * @param headers  The headers
-     *
      * @return The response to kernel
      */
     public abstract Object createWebResourceResponse(String mimeType, String encoding, InputStream data, Map<String, String> headers);
@@ -302,9 +304,9 @@ public abstract class SonicRuntime {
     /**
      * Post a task to the thread(a io thread is better) which used to separate template and data.
      *
-     * @param task A runnable task
+     * @param task        A runnable task
      * @param delayMillis The delay (in milliseconds) until the Runnable
-     *        will be executed.
+     *                    will be executed.
      */
     public abstract void postTaskToThread(Runnable task, long delayMillis);
 
@@ -320,7 +322,7 @@ public abstract class SonicRuntime {
     /**
      * Post a task in main thread
      *
-     * @param task A runnable task
+     * @param task        A runnable task
      * @param delayMillis Delay millis
      */
     public void postTaskToMainThread(Runnable task, long delayMillis) {
@@ -345,7 +347,7 @@ public abstract class SonicRuntime {
      * Notify error for host application to do report or statics
      *
      * @param client    The error client
-     * @param url      The error url
+     * @param url       The error url
      * @param errorCode Error code
      */
     public abstract void notifyError(SonicSessionClient client, String url, int errorCode);

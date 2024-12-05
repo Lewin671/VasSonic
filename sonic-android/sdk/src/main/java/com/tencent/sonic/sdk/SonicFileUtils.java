@@ -345,6 +345,11 @@ public class SonicFileUtils {
         File file = new File(filePath);
         FileOutputStream fos = null;
         try {
+            // make sure the directory of filePath exists
+            File dir = file.getParentFile();
+            if (dir == null || !dir.exists()) {
+                dir.mkdirs();
+            }
             if (!file.exists() && !file.createNewFile()) {
                 return false;
             }
